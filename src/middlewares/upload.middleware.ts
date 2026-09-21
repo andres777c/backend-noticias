@@ -1,26 +1,9 @@
-import fs from 'fs';
-import path from 'path';
-
 import multer from 'multer';
 
-// Asegurar que el directorio uploads exista
-const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// Configuración de almacenamiento local
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (_req, file, cb) => {
-    // Generar un nombre único para evitar colisiones
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    cb(null, file.fieldname + '-' + uniqueSuffix + ext);
-  }
-});
+// Los archivos se mantienen en memoria y el controlador los sube a Cloudinary.
+// No se escribe nada al disco: en las plataformas de despliegue el sistema de
+// archivos es efímero y lo que se guarde se pierde en cada reinicio.
+const storage = multer.memoryStorage();
 
 // Filtro para aceptar solo imágenes
 const fileFilter = (_req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {

@@ -1,5 +1,3 @@
-import path from 'path';
-
 import cors from 'cors';
 import express from 'express';
 
@@ -20,7 +18,6 @@ const PORT = process.env.NODE_ENV === 'production'
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use('/api', mainRouter);
-app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')));
 app.use(notFound);
 app.use(errorHandler);
 
