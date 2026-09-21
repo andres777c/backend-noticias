@@ -17,7 +17,7 @@ Backend robusto para sistema de gestión de noticias que proporciona autenticaci
 - Filtrado por categoría, autor y estado
 - Búsqueda de noticias con sanitización
 - Validación de variables de entorno con Zod
-- Subida y almacenamiento robusto de imágenes locales con Multer (`multipart/form-data`)
+- Subida de imágenes con Multer (`multipart/form-data`) y almacenamiento en Cloudinary
 - Paginación en endpoints de listado
 - Arquitectura modular (Controller → Service → Repository) totalmente documentada con JSDoc
 - Script avanzado de Seeding (`seedNews.ts`) para generar artículos peridísticos orgánicos y entornos de pre-producción completos.
@@ -72,9 +72,16 @@ APP_URL=http://localhost:3000
 # JWT (OBLIGATORIO - mínimo 32 caracteres)
 JWT_SECRET=tu_secreto_jwt_minimo_32_caracteres_aqui
 JWT_EXPIRES_IN=7d
+
+# Cloudinary (OBLIGATORIO en producción)
+CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
 ```
 
 > **Nota:** `JWT_SECRET` es obligatorio y debe tener al menos 32 caracteres.
+
+> **Nota:** `CLOUDINARY_URL` es obligatoria cuando `NODE_ENV=production`. Se copia del panel de Cloudinary, en Settings > API Keys > API Environment variable. Sin ella el servidor no arranca en producción.
+
+> **Nota:** `PORT_PROD` debe quedar sin definir en plataformas que inyectan `PORT`, como Railway o Render. Si se define, el servidor escucha en un puerto que la plataforma no expone.
 
 ### 4. Inicializar Superadmin
 
@@ -373,7 +380,7 @@ Authorization: Bearer <token>
 | `category` | Enum | Sí | Categoría |
 | `variant` | Enum | Sí | highlighted, featured, default |
 | `status` | Enum | No | draft, published |
-| `mainImage` | Archivo | No | Almacenado físicamente usando Multer (`url gen`) |
+| `mainImage` | String | No | URL de la imagen en Cloudinary |
 | `source` | String | No | Fuente |
 | `publicationDate` | Date | No | Fecha de publicación |
 
@@ -462,7 +469,8 @@ logger.debug({ data }, 'Mensaje de debug');
 - bcryptjs ^3.0.3
 
 ### Manejo de Archivos
-- multer ^1.4.5-lts.1
+- multer ^2.1.1
+- cloudinary ^2.11.0
 
 ### Testing
 - vitest ^3.0.7

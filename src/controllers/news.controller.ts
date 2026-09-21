@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 
+import { uploadImageBuffer } from '../config/cloudinary.js';
 import type {
     CreateNewsRequestDto,
     UpdateNewsRequestDto,
@@ -74,11 +75,9 @@ export class NewsController {
         }
 
         if (req.file) {
-            const host = req.get('host') || 'localhost:3000';
-            const protocol = req.protocol;
-            newsData.mainImage = `${protocol}://${host}/uploads/${req.file.filename}`;
+            newsData.mainImage = await uploadImageBuffer(req.file.buffer);
         }
-        
+
         const newNews = await this.newsService.createNews(newsData, user._id);
         const payload = toNewsResponseDto(newNews);
         return res
@@ -173,9 +172,7 @@ export class NewsController {
         const user = (req as any).user;
 
         if (req.file) {
-            const host = req.get('host') || 'localhost:3000';
-            const protocol = req.protocol;
-            newsData.mainImage = `${protocol}://${host}/uploads/${req.file.filename}`;
+            newsData.mainImage = await uploadImageBuffer(req.file.buffer);
         }
 
         const edited = await this.newsService.editNews(

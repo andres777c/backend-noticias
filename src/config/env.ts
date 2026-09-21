@@ -22,6 +22,8 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(32),
   JWT_EXPIRES_IN: z.string().default('7d'),
 
+  CLOUDINARY_URL: z.string().optional(),
+
   INIT_SUPERADMIN: z.string().optional(),
   SUPERADMIN_NAME: z.string().optional(),
   SUPERADMIN_LASTNAME: z.string().optional(),
@@ -36,6 +38,11 @@ const envSchema = z.object({
   },
   {
     message: 'MONGODB_URI required in production, MONGODB_DEV required in development',
+  }
+).refine(
+  (data) => data.NODE_ENV !== 'production' || !!data.CLOUDINARY_URL,
+  {
+    message: 'CLOUDINARY_URL required in production (image uploads)',
   }
 );
 
