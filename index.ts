@@ -12,6 +12,7 @@ import mainRouter from './src/routes/main.routes.js';
 import logger from './src/utils/logger.js';
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.NODE_ENV === 'production'
   ? (env.PORT_PROD || env.PORT)
   : (env.PORT_DEV || env.PORT);
