@@ -29,7 +29,7 @@ Backend robusto para sistema de gestión de noticias que proporciona autenticaci
 ## Requisitos Previos
 
 - Node.js >= 18.x
-- npm o yarn
+- pnpm (se activa con `corepack enable pnpm`)
 - MongoDB (local o remoto)
 
 ## Instalación
@@ -44,7 +44,7 @@ cd backend-noticias
 ### 2. Instalar dependencias
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### 3. Configurar variables de entorno
@@ -81,28 +81,28 @@ JWT_EXPIRES_IN=7d
 Crear el usuario superadmin inicial:
 
 ```bash
-npm run create-superadmin
+pnpm create-superadmin
 ```
 
 ## Uso
 
 ### Comandos disponibles
 
-- `npm run dev` - Inicia el servidor en modo desarrollo con hot reload
-- `npm run build` - Compila el proyecto TypeScript
-- `npm start` - Inicia el servidor en producción
-- `npm run test` - Ejecuta la suite de pruebas unitarias y de integración (Vitest)
-- `npm run create-superadmin` - Crea usuario superadmin
-- `npm run delete-superadmin` - Elimina usuario superadmin
-- `npm run seed` - Limpia y puebla la base de datos de noticias con 31 artículos de corte periodístico realista (Requiere Superadmin previo).
-- `npm run type-check` - Verifica tipos TypeScript
-- `npm run lint` - Ejecuta ESLint para verificar código
-- `npm run lint:fix` - Ejecuta ESLint y corrige errores automáticamente
+- `pnpm dev` - Inicia el servidor en modo desarrollo con hot reload
+- `pnpm build` - Compila el proyecto TypeScript
+- `pnpm start` - Inicia el servidor en producción
+- `pnpm test` - Ejecuta la suite de pruebas unitarias y de integración (Vitest)
+- `pnpm create-superadmin` - Crea usuario superadmin
+- `pnpm delete-superadmin` - Elimina usuario superadmin
+- `pnpm seed` - Limpia y puebla la base de datos de noticias con 31 artículos de corte periodístico realista (Requiere Superadmin previo).
+- `pnpm type-check` - Verifica tipos TypeScript
+- `pnpm lint` - Ejecuta ESLint para verificar código
+- `pnpm lint:fix` - Ejecuta ESLint y corrige errores automáticamente
 
 ### Modo Desarrollo
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 El servidor se iniciará en `http://localhost:3000`.
@@ -110,8 +110,8 @@ El servidor se iniciará en `http://localhost:3000`.
 ### Modo Producción
 
 ```bash
-npm run build
-npm start
+pnpm build
+pnpm start
 ```
 
 ## Estructura del Proyecto
@@ -425,10 +425,10 @@ El proyecto utiliza ESLint con configuración para TypeScript. Las reglas princi
 
 ```bash
 # Verificar errores
-npm run lint
+pnpm lint
 
 # Corregir errores automáticamente
-npm run lint:fix
+pnpm lint:fix
 ```
 
 ### Sistema de Logging
