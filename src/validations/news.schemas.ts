@@ -20,9 +20,10 @@ export const paginationQuerySchema = z.object({
 
 export type PaginationQuery = z.infer<typeof paginationQuerySchema>;
 
+// El slug no se acepta del cliente: el servicio lo genera siempre a partir del
+// título (ver NewsService.createNews y editNews). Si viene en el cuerpo, Zod lo descarta.
 export const createNewsSchema = z.object({
   title: z.string().min(3, 'Título demasiado corto'),
-  slug: z.string().min(3, 'Slug demasiado corto'),
   summary: z.string().min(10, 'Resumen demasiado corto'),
   content: z.string().min(20, 'Contenido demasiado corto'),
   highlights: z.preprocess((val) => {
