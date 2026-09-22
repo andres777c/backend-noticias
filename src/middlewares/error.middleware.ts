@@ -17,10 +17,14 @@ export function errorHandler(err: Error, _req: Request, res: Response, _next: Ne
       message: err.message,
     };
 
+    // Los errores de validación indican qué campo falló y por qué. No exponen datos
+    // internos, así que se devuelven en todos los entornos para que el cliente pueda
+    // mostrarlos. La traza, en cambio, solo en desarrollo.
+    if (Array.isArray(err.details) && err.details.length > 0) {
+      response.details = formatValidationErrors(err.details as ZodIssue[]);
+    }
+
     if (process.env.NODE_ENV === 'development') {
-      if (Array.isArray(err.details) && err.details.length > 0) {
-        response.details = formatValidationErrors(err.details as ZodIssue[]);
-      }
       response.stack = err.stack;
     }
 
