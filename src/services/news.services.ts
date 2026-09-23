@@ -7,6 +7,7 @@ import type {
 } from '../dtos/news.dto.js';
 import { AppError } from '../errors/AppError.js';
 import { cleanUndefined } from '../helpers/cleanUndefined.js';
+import { normalizeSpaces } from '../helpers/normalizeSpaces.js';
 import type { INews } from '../interfaces/news.interface.js';
 import type { IPaginationOptions, IPaginatedResponse } from '../interfaces/pagination.interface.js';
 import { NewsRepository } from '../repositories/news.repository.js';
@@ -110,6 +111,7 @@ export class NewsService {
 
     const newsToCreate = cleanUndefined({
       ...newsData,
+      content: normalizeSpaces(newsData.content),
       slug,
       author: authorId,
       status: 'draft' as const,
@@ -199,6 +201,10 @@ export class NewsService {
     }
 
     const cleanedData = cleanUndefined(newsData) as Partial<INews>;
+
+    if (cleanedData.content) {
+      cleanedData.content = normalizeSpaces(cleanedData.content);
+    }
 
     // Generar slug nuevamente si el título cambia
     if (cleanedData.title) {
