@@ -42,7 +42,10 @@ export const updateNewsSchema = createNewsSchema.partial().extend({
   status: z
     .enum(['draft', 'in_review', 'approved', 'published', 'rejected'])
     .optional(),
-  publicationDate: z.date().nullable().optional(),
+  // Se acepta como texto y se convierte: en una petición HTTP toda fecha viaja
+  // como cadena, así que exigir un objeto Date hacía imposible editar una noticia
+  // que ya tuviera fecha de publicación.
+  publicationDate: z.coerce.date().nullable().optional(),
 });
 
 export const newsIdParamSchema = z.object({
